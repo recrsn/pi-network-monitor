@@ -1,0 +1,22 @@
+targets:
+  - 1.1.1.1
+  - 8.8.8.8
+  - 2001:4860:4860::8888
+  - 2001:4860:4860::8844
+  - google.com
+  - youtube.com
+  - github.com
+  - zoom.us
+
+dns:
+  refresh: 300s
+  nameserver: 1.1.1.1
+
+ping:
+  interval: 2s
+  timeout: 3s
+  history-size: 42
+  payload-size: 120
+
+metrics:
+  rttunit: s

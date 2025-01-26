@@ -1,0 +1,37 @@
+services:
+  prometheus:
+    image: prom/prometheus
+    ports:
+      - 9090:9090
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+  grafana:
+    image: grafana/grafana
+    ports:
+      - 3000:3000
+    volumes:
+      - ./data/grafana:/var/lib/grafana
+  node-exporter:
+    image: prom/node-exporter
+    ports:
+      - 9100:9100
+  blackbox-exporter:
+    image: prom/blackbox-exporter
+    ports:
+      - 9115:9115
+#    command:
+#      - "--config.file=/etc/blackbox-exporter/config.yml"
+#    volumes:
+#      - ./blackbox-exporter.yml:/etc/blackbox-exporter/config.yml
+    cap_add:
+      - NET_RAW
+  ping-exporter:
+    image: czerwonk/ping_exporter
+    ports:
+      - "9427:9427"
+    volumes:
+      - ./ping-exporter.yml:/config/config.yml:ro
+    cap_add:
+      - NET_RAW
