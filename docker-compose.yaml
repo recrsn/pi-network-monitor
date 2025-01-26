@@ -1,5 +1,6 @@
 services:
   prometheus:
+    restart: always
     image: prom/prometheus
     ports:
       - 9090:9090
@@ -8,16 +9,19 @@ services:
     command:
       - "--config.file=/etc/prometheus/prometheus.yml"
   grafana:
+    restart: always
     image: grafana/grafana
     ports:
       - 3000:3000
     volumes:
       - ./data/grafana:/var/lib/grafana
   node-exporter:
+    restart: always
     image: prom/node-exporter
     ports:
       - 9100:9100
   blackbox-exporter:
+    restart: always
     image: prom/blackbox-exporter
     ports:
       - 9115:9115
@@ -28,6 +32,7 @@ services:
     cap_add:
       - NET_RAW
   ping-exporter:
+    restart: always
     image: czerwonk/ping_exporter
     ports:
       - "9427:9427"
