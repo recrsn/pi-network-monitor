@@ -6,6 +6,7 @@ services:
       - 9090:9090
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus-data:/prometheus
     command:
       - "--config.file=/etc/prometheus/prometheus.yml"
   grafana:
@@ -14,7 +15,7 @@ services:
     ports:
       - 3000:3000
     volumes:
-      - ./data/grafana:/var/lib/grafana
+      - grafana-data:/var/lib/grafana
   node-exporter:
     restart: always
     image: prom/node-exporter
@@ -40,3 +41,7 @@ services:
       - ./ping-exporter.yml:/config/config.yml:ro
     cap_add:
       - NET_RAW
+
+volumes:
+    grafana-data: {}
+    prometheus-data: {}
