@@ -19,19 +19,17 @@ services:
   node-exporter:
     restart: always
     image: prom/node-exporter
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - "--path.procfs=/host/proc"
+      - "--path.rootfs=/rootfs"
+      - "--path.sysfs=/host/sys"
+      - "--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)"
     ports:
       - 9100:9100
-  blackbox-exporter:
-    restart: always
-    image: prom/blackbox-exporter
-    ports:
-      - 9115:9115
-#    command:
-#      - "--config.file=/etc/blackbox-exporter/config.yml"
-#    volumes:
-#      - ./blackbox-exporter.yml:/etc/blackbox-exporter/config.yml
-    cap_add:
-      - NET_RAW
   ping-exporter:
     restart: always
     image: czerwonk/ping_exporter
@@ -43,5 +41,9 @@ services:
       - NET_RAW
 
 volumes:
-    grafana-data: {}
-    prometheus-data: {}
+  grafana-data: {}
+  prometheus-data: {}
+
+networks:
+  default:
+    enable_ipv6: true
